@@ -1,0 +1,24 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      // By default, do not allow access
+      allow read, write: if false;
+    }
+    
+    match /food_images/{imageId} {
+      // Allow anyone to view images
+      allow read: if true;
+      
+      // Allow Donors and NGOs to upload images
+      allow create: if request.auth != null
+                    && (firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'donor' 
+                        || firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'ngo')
+                    && request.resource.size < 5 * 1024 * 1024 // 5MB limit
+                    && request.resource.contentType.matches('image/.*');
+      
+      // Prevent deletion/modification of existing images
+      allow update, delete: if false;
+    }
+  }
+}

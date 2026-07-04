@@ -1,0 +1,15 @@
+{
+  "name": "sustainabite",
+  "version": "1.0.0",
+  "description": "Full-stack Food Rescue Web Application using Firebase",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx http-server public -p 5005",
+    "dev": "npx http-server public -p 5005 -c-1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "author": "Antigravity Agent",
+  "license": "MIT"
+}

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SustainaBite - Food Rescue & Delivery Network</title>
+  <!-- Font Awesome for premium iconography -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo" id="logo-btn">
+        <i class="fa-solid fa-leaf"></i>
+        <span>SustainaBite</span>
+      </a>
+      
+      <nav>
+        <ul>
+          <li class="nav-item active" data-view="browse"><a href="#" id="nav-browse"><i class="fa-solid fa-utensils"></i> Browse Food</a></li>
+          <li class="nav-item hide" data-view="post" id="nav-post-li"><a href="#" id="nav-post"><i class="fa-solid fa-circle-plus"></i> Post Food</a></li>
+          <li class="nav-item hide" data-view="dashboard" id="nav-dash-li"><a href="#" id="nav-dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+          <li class="nav-item hide" data-view="admin" id="nav-admin-li"><a href="#" id="nav-admin"><i class="fa-solid fa-user-shield"></i> Admin Control</a></li>
+          <li class="nav-item" data-view="leaderboard"><a href="#" id="nav-leaderboard"><i class="fa-solid fa-ranking-star"></i> Impact Board</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Theme Toggle -->
+        <button class="btn-icon" id="theme-toggle" title="Toggle Light/Dark Mode">
+          <i class="fa-solid fa-sun" id="theme-icon-light"></i>
+          <i class="fa-solid fa-moon hide" id="theme-icon-dark"></i>
+        </button>
+
+        <!-- User Authentication Actions -->
+        <div id="auth-actions">
+          <button class="btn btn-primary" id="btn-login-trigger"><i class="fa-solid fa-right-to-bracket"></i> <span class="hide-on-mobile">NGO / Donor </span>Sign In</button>
+        </div>
+        
+        <!-- User Profile Tag -->
+        <div id="user-profile" class="profile-tag hide" style="position: relative;">
+          <!-- Notification Bell -->
+          <div id="nav-notifications" class="hide" style="position: relative; cursor: pointer; margin-right: 15px; display: flex; align-items: center;">
+            <i class="fa-solid fa-bell" style="font-size: 1.2rem;"></i>
+            <span id="notif-badge" style="position: absolute; top: -6px; right: -8px; background: var(--danger); color: white; border-radius: 50%; padding: 2px 5px; font-size: 0.65rem; font-weight: bold; display: none;">0</span>
+          </div>
+          
+          <i class="fa-solid fa-circle-user" id="user-avatar-icon"></i>
+          <span id="user-display-name" class="hide-on-mobile">Username</span>
+          <button class="btn-icon" id="btn-logout" title="Log Out" style="width:28px; height:28px; border:none; background:transparent;">
+            <i class="fa-solid fa-right-from-bracket" style="font-size: 0.9rem; color: var(--danger)"></i>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="btn-icon mobile-menu-toggle" id="mobile-menu-toggle" title="Menu" style="display: none;">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero Intro Banner -->
+  <section class="hero container" id="hero-banner">
+    <h1>Rescue Food. feed people. protect the planet.</h1>
+    <p style="margin-bottom: 30px;">SustainaBite connects generous donors directly to those in need.</p>
+    
+    <div class="timeline">
+      <div class="timeline-item left">
+        <div class="timeline-content glass">
+          <h3><i class="fa-solid fa-store" style="margin-right: 8px;"></i>1. Donors Post Surplus</h3>
+          <p>Restaurants, bakeries, or households list their extra, perfectly good food in seconds.</p>
+          <button class="btn btn-secondary btn-sm" style="margin-top: 15px;" onclick="document.getElementById('btn-login-trigger').click()">Become a Donor</button>
+        </div>
+      </div>
+      
+      <div class="timeline-item right">
+        <div class="timeline-content glass">
+          <h3><i class="fa-solid fa-hand-holding-heart" style="margin-right: 8px;"></i>2. NGOs Claim Food</h3>
+          <p>Verified NGOs and charities browse real-time local listings and claim the food for their communities.</p>
+          <button class="btn btn-secondary btn-sm" style="margin-top: 15px;" onclick="document.getElementById('view-browse').scrollIntoView({behavior: 'smooth'})">View Feed</button>
+        </div>
+      </div>
+      
+      <div class="timeline-item left">
+        <div class="timeline-content glass">
+          <h3><i class="fa-solid fa-truck-fast" style="margin-right: 8px;"></i>3. Automated Transit</h3>
+          <p>Our integrated transit partners pick up the food from the donor and safely deliver it to the NGO.</p>
+          <div style="margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="https://www.uber.com" target="_blank" class="btn btn-secondary btn-sm" style="background: #000; color: #fff; border: none; padding: 5px 12px; font-size: 0.8rem; border-radius: 20px;"><i class="fa-brands fa-uber"></i> Uber</a>
+            <a href="https://www.olacabs.com" target="_blank" class="btn btn-secondary btn-sm" style="background: #CDDC39; color: #000; border: none; padding: 5px 12px; font-size: 0.8rem; border-radius: 20px;">Ola</a>
+            <a href="https://porter.in" target="_blank" class="btn btn-secondary btn-sm" style="background: #2E5CFF; color: #fff; border: none; padding: 5px 12px; font-size: 0.8rem; border-radius: 20px;">Porter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Dynamic counters updated via WebSockets/API -->
+    <div class="hero-counters">
+      <div class="counter-card glass">
+        <span class="value" id="global-stat-meals">0</span>
+        <span class="label">Meals Rescued</span>
+      </div>
+      <div class="counter-card co2 glass">
+        <span class="value" id="global-stat-co2">0.0</span>
+        <span class="label">kg CO₂ Saved</span>
+      </div>
+      <div class="counter-card rescues glass">
+        <span class="value" id="global-stat-rescues">0</span>
+        <span class="label">Rescue Missions</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- View Content Areas -->
+  <main class="container">
+
+    <!-- VIEW 1: Authentication (Login / Register) -->
+    <div id="view-auth" class="view-section">
+      <div class="auth-grid">
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tab-login">Sign In</button>
+          <button class="auth-tab-btn" id="tab-register">Register Account</button>
+        </div>
+
+        <!-- Login Panel -->
+        <div class="auth-card glass" id="card-login-form">
+          <h2>Welcome Back</h2>
+          <form id="form-login">
+            <div class="form-group">
+              <label for="login-email">Email Address</label>
+              <input type="email" id="login-email" class="form-input" placeholder="e.g. ngo@sustain.com, bistro@sustain.com" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Sign In</button>
+          </form>
+          
+          <div style="display: flex; align-items: center; margin: 15px 0;">
+            <hr style="flex: 1; border: none; border-top: 1px solid var(--border-card);">
+            <span style="padding: 0 10px; color: var(--text-muted); font-size: 0.8rem;">OR</span>
+            <hr style="flex: 1; border: none; border-top: 1px solid var(--border-card);">
+          </div>
+          
+          <button type="button" class="btn btn-secondary btn-google-auth" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <i class="fa-brands fa-google"></i> Continue with Google
+          </button>
+
+          <div class="auth-toggle-link" style="margin-top: 15px;">
+            Don't have an account? <a href="#" id="link-to-register">Register here</a>
+          </div>
+        </div>
+
+        <!-- Register Panel -->
+        <div class="auth-card glass hide" id="card-register-form">
+          <h2>Create Account</h2>
+          <form id="form-register">
+            <div class="form-group">
+              <label>Select User Type</label>
+              <div class="role-selector">
+                <div class="role-option">
+                  <input type="radio" id="role-donor" name="reg-role" value="donor" checked>
+                  <label for="role-donor" class="role-label" style="padding:10px;">
+                    <i class="fa-solid fa-store" style="font-size:1.1rem;"></i>
+                    <span style="font-size:0.75rem;">Donor</span>
+                  </label>
+                </div>
+                <div class="role-option">
+                  <input type="radio" id="role-ngo" name="reg-role" value="ngo">
+                  <label for="role-ngo" class="role-label" style="padding:10px;">
+                    <i class="fa-solid fa-hand-holding-heart" style="font-size:1.1rem;"></i>
+                    <span style="font-size:0.75rem;">NGO</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Donor Specific Category -->
+            <div class="form-group" id="donor-type-group">
+              <label for="reg-donor-type">Donor Category</label>
+              <select id="reg-donor-type" class="select-custom" style="width:100%;">
+                <option value="Restaurant">Restaurant / Caterer / Bakery</option>
+                <option value="Household">Individual Household</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-name">Full / Organization Name</label>
+              <input type="text" id="reg-name" class="form-input" placeholder="e.g. Green Cafe" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-email">Email Address</label>
+              <input type="email" id="reg-email" class="form-input" placeholder="name@domain.com" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Password</label>
+              <input type="password" id="reg-password" class="form-input" placeholder="Min. 6 characters" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-address">Pickup / Branch Address</label>
+              <input type="text" id="reg-address" class="form-input" placeholder="Street Name, Area, City" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-contact">Contact Number</label>
+              <input type="text" id="reg-contact" class="form-input" placeholder="+1 (555) 000-0000" required>
+            </div>
+
+            <!-- Geo location mock coordinates (User selects to simulate GPS placement) -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="reg-lat">Latitude Coordinate (Mock)</label>
+                <input type="number" id="reg-lat" class="form-input" step="any" value="12.9716" required>
+              </div>
+              <div class="form-group">
+                <label for="reg-lng">Longitude Coordinate (Mock)</label>
+                <input type="number" id="reg-lng" class="form-input" step="any" value="77.5946" required>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id="btn-detect-gps" style="width:100%; margin-bottom: 10px; font-size:0.8rem;">
+              <i class="fa-solid fa-location-crosshairs"></i> Get My Current Location
+            </button>
+            <div id="reg-map" style="height: 180px; border-radius: var(--radius-sm); margin-bottom: 15px; border: 1px solid var(--border-card); overflow: hidden; margin-top: 5px;"></div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Register Profile</button>
+          </form>
+
+          <div style="display: flex; align-items: center; margin: 15px 0;">
+            <hr style="flex: 1; border: none; border-top: 1px solid var(--border-card);">
+            <span style="padding: 0 10px; color: var(--text-muted); font-size: 0.8rem;">OR</span>
+            <hr style="flex: 1; border: none; border-top: 1px solid var(--border-card);">
+          </div>
+          
+          <button type="button" class="btn btn-secondary btn-google-auth" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <i class="fa-brands fa-google"></i> Continue with Google
+          </button>
+
+          <div class="auth-toggle-link" style="margin-top: 15px;">
+            Already have an account? <a href="#" id="link-to-login">Sign in here</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: Browse Food Listings & Live Radar -->
+    <div id="view-browse" class="view-section active">
+      <!-- Search & Filters Glass Bar -->
+      <div class="filter-bar glass">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="filter-search" class="form-input" placeholder="Search food items, donor details, or address...">
+        </div>
+        
+        <div class="filter-selects">
+          <select id="filter-category" class="select-custom">
+            <option value="all">Dietary Categories</option>
+            <option value="Veg">Vegetarian</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Non-Veg">Non-Vegetarian</option>
+          </select>
+          
+          <select id="filter-distance" class="select-custom">
+            <option value="all">Any Distance</option>
+            <option value="1">&lt; 1.0 km</option>
+            <option value="2.5">&lt; 2.5 km</option>
+            <option value="5">&lt; 5.0 km</option>
+          </select>
+          
+          <select id="filter-portions" class="select-custom">
+            <option value="all">Any Quantity</option>
+            <option value="10">10+ servings</option>
+            <option value="25">25+ servings</option>
+          </select>
+          
+          <select id="filter-sort" class="select-custom">
+            <option value="expiry">Expiring Soonest</option>
+            <option value="closest">Closest Distance</option>
+            <option value="newest">Newly Listed</option>
+          </select>
+        </div>
+
+        <div class="view-toggle-buttons">
+          <button class="btn btn-secondary btn-icon" id="toggle-map" title="Toggle Live Routing Map">
+            <i class="fa-solid fa-map-location-dot"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid Panel Layout -->
+      <div class="browse-layout" id="browse-layout-container">
+        
+        <!-- Feed Card Listing -->
+        <div class="listings-feed-container">
+          <div class="panel-title">
+            <i class="fa-solid fa-utensils"></i>
+            <span>Surplus Listings Available</span>
+          </div>
+          <div class="listings-grid" id="food-listings-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Visual Map (Routing paths and live tracking cars) -->
+        <div class="map-sticky glass hide" id="map-panel-container">
+          <div class="map-header">
+            <h3><i class="fa-solid fa-crosshairs"></i> Rescue Radar Routing Map</h3>
+            <button class="btn btn-secondary btn-icon" id="close-map-btn" style="width:30px; height:30px;" title="Hide Map">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="map-canvas" id="interactive-map-canvas">
+            <!-- Simulated coordinates map -->
+            <div class="map-popup glass" id="map-popup-card">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 3: Post Surplus Food Form -->
+    <div id="view-post" class="view-section">
+      <div class="post-card glass">
+        <h2>Post Surplus Food Offering</h2>
+        <form id="form-post-food">
+          <div class="form-group">
+            <label for="post-title">Food Item Name / Title</label>
+            <input type="text" id="post-title" class="form-input" placeholder="e.g. Vegetarian Fried Rice Large Tray" required>
+          </div>
+
+          <div class="form-group">
+            <label for="post-desc">Description & Packaging Info</label>
+            <textarea id="post-desc" class="form-input" placeholder="Add packaging info, container transfers, ingredients, or allergens (e.g. nuts, soy)." required></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-servings">Quantity (Portion Servings)</label>
+              <input type="number" id="post-servings" class="form-input" min="1" placeholder="e.g. 20" required>
+            </div>
+
+            <div class="form-group">
+              <label>Dietary Category</label>
+              <div class="diet-selector">
+                <div class="diet-option">
+                  <input type="radio" id="diet-veg" name="post-diet" value="Veg" checked>
+                  <label for="diet-veg" class="diet-label">Vegetarian</label>
+                </div>
+                <div class="diet-option">
+                  <input type="radio" id="diet-vegan" name="post-diet" value="Vegan">
+                  <label for="diet-vegan" class="diet-label">Vegan</label>
+                </div>
+                <div class="diet-option">
+                  <input type="radio" id="diet-nonveg" name="post-diet" value="Non-Veg">
+                  <label for="diet-nonveg" class="diet-label">Non-Veg</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="post-expiry">Hours Before Expiration</label>
+              <input type="number" id="post-expiry" class="form-input" min="1" max="24" value="4" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="post-address">Pickup Point Address / Google Maps Link</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="post-address" class="form-input" placeholder="Verify exact location for driver coordinates" required>
+                <button type="button" class="btn btn-secondary" id="btn-parse-link-post" style="white-space: nowrap; font-size: 0.8rem;">
+                  <i class="fa-solid fa-link"></i> Extract
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-row" style="margin-top: 10px;">
+            <div class="form-group">
+              <label for="post-lat">Latitude</label>
+              <input type="number" id="post-lat" class="form-input" step="any" value="12.9716" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="post-lng">Longitude</label>
+              <input type="number" id="post-lng" class="form-input" step="any" value="77.5946" required readonly>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary" id="btn-detect-gps-post" style="width:100%; margin-bottom: 10px; font-size:0.8rem;">
+            <i class="fa-solid fa-location-crosshairs"></i> Get My Current Location
+          </button>
+          <div id="post-map" style="height: 180px; border-radius: var(--radius-sm); margin-bottom: 15px; border: 1px solid var(--border-card); overflow: hidden; margin-top: 5px;"></div>
+
+          <div class="form-group" style="margin-top: 15px; margin-bottom: 15px;">
+            <label for="post-transport">Preferred Delivery Method</label>
+            <select id="post-transport" class="form-input" required>
+              <option value="Self delivery">Self delivery (Donor will deliver)</option>
+              <option value="NGO pickup" selected>NGO pickup (NGO will pick up)</option>
+              <option value="Third-party transport">Third-party transport (Uber/Ola/Rapido)</option>
+            </select>
+          </div>
+
+          <!-- Image Selector Presets -->
+          <div class="form-group">
+            <label for="post-image-upload">Upload Food Image (Firebase Storage)</label>
+            <input type="file" id="post-image-upload" class="form-input" accept="image/*" style="margin-bottom: 10px;">
+            
+            <label style="font-size: 0.8rem; opacity: 0.8;">Or pick a preset theme:</label>
+            <div class="image-picker">
+              <label class="img-picker-option" title="Veg - Fresh Salad">
+                <input type="radio" name="post-image" value="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600" checked>
+                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=100" alt="Veg Salad">
+              </label>
+              <label class="img-picker-option" title="Veg - Hearty Curry">
+                <input type="radio" name="post-image" value="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600">
+                <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=100" alt="Veg Curry">
+              </label>
+              <label class="img-picker-option" title="Non-Veg - Roasted Chicken">
+                <input type="radio" name="post-image" value="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=600">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=100" alt="Non-Veg Chicken">
+              </label>
+              <label class="img-picker-option" title="Non-Veg - Meat Burger">
+                <input type="radio" name="post-image" value="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100" alt="Non-Veg Burger">
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;"><i class="fa-solid fa-paper-plane"></i> Publish Food Listing</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- VIEW 4: Dashboards (NGO Portal / Donor Portal / Volunteer Portal) -->
+    <div id="view-dashboard" class="view-section">
+      <h2 style="font-size:2.2rem; margin-bottom:10px;" id="dashboard-heading">User Dashboard</h2>
+      <p id="dashboard-subheading" style="color:var(--text-secondary); margin-bottom: 20px;">Review metrics, active jobs, and transaction trails.</p>
+
+      <div class="dashboard-grid">
+        
+        <!-- Sidebar: Personal Impact Panel -->
+        <div class="dashboard-sidebar">
+          <div class="metrics-panel glass">
+            <div class="panel-title">
+              <i class="fa-solid fa-leaf"></i>
+              <span>Eco Impact Tracker</span>
+            </div>
+            
+            <div class="sidebar-metric">
+              <div class="metric-icon"><i class="fa-solid fa-bowl-rice"></i></div>
+              <div class="metric-text">
+                <h4 id="dash-stat-meals">0</h4>
+                <span>Portions Saved</span>
+              </div>
+            </div>
+
+            <div class="sidebar-metric co2">
+              <div class="metric-icon"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+              <div class="metric-text">
+                <h4 id="dash-stat-co2">0.0</h4>
+                <span>kg CO₂ Saved</span>
+              </div>
+            </div>
+
+            <div class="sidebar-metric rescues">
+              <div class="metric-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+              <div class="metric-text">
+                <h4 id="dash-stat-rescues">0</h4>
+                <span>Completed Tasks</span>
+              </div>
+            </div>
+            
+            <div class="panel-title" style="margin-top: 24px; border-bottom: 1px solid var(--border-card);">
+              <span>CO₂ Carbon Equivalents</span>
+            </div>
+            <div class="equivalents-container">
+              <div class="eq-card miles">
+                <i class="fa-solid fa-car"></i>
+                <strong id="eq-val-miles">0</strong>
+                <span>Car Miles Saved</span>
+              </div>
+              <div class="eq-card water">
+                <i class="fa-solid fa-droplet"></i>
+                <strong id="eq-val-water">0L</strong>
+                <span>Water Offsets</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Body Content -->
+        <div class="dashboard-main">
+          
+          <!-- NGO Dashboard Panel -->
+          <div class="claims-panel glass hide" id="panel-ngo-claims">
+            <div class="panel-title">
+              <i class="fa-solid fa-clipboard-check"></i>
+              <span>Your Active Claims</span>
+            </div>
+            <div class="dash-list" id="ngo-active-claims-list">
+              <!-- Rendered Dynamically -->
+            </div>
+          </div>
+
+          <!-- Donor Dashboard Panel -->
+          <div class="postings-panel glass hide" id="panel-donor-postings">
+            <div class="panel-title">
+              <i class="fa-solid fa-store-slash"></i>
+              <span>Active Offerings List</span>
+            </div>
+            <div class="dash-list" id="donor-active-posts-list">
+              <!-- Rendered Dynamically -->
+            </div>
+          </div>
+
+          <!-- Completed History Table -->
+          <div class="claims-panel glass">
+            <div class="panel-title">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span>Transaction History Log</span>
+            </div>
+            <div class="dash-list" id="user-history-list">
+              <!-- Rendered Dynamically -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 5: Admin Panel (System auditing and manual volunteer assignments) -->
+    <div id="view-admin" class="view-section">
+      <div class="panel-title">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Admin Command Center</span>
+      </div>
+      
+      <div class="dashboard-grid" id="admin-dashboard-grid" style="margin-top: 20px;">
+        
+        <!-- Dispatcher lists -->
+        <div class="claims-panel glass" style="padding: 24px;">
+          <h3><i class="fa-solid fa-route"></i> Live Dispatch Override Console</h3>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom: 20px;">Manual dispatch override console. Select an active claimed listing and assign it manually to a registered rider, or view booked transit cabs.</p>
+          
+          <div class="dash-list" id="admin-dispatch-list">
+            <!-- Populated dynamically with active claims and dispatch controls -->
+          </div>
+        </div>
+
+        <!-- Real-Time MySQL Event Audits -->
+        <div class="claims-panel glass" style="padding: 24px;">
+          <h3><i class="fa-solid fa-database" style="color:#00758f;"></i> MySQL Live Logs Stream</h3>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Real-time stream of audit records reading directly from MySQL system logs table.</p>
+          <div id="admin-logs-container" style="max-height: 400px; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
+            <!-- Live WebSockets logs appended here -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 6: Leaderboard & Impact Charts -->
+    <div id="view-leaderboard" class="view-section">
+      <h2 style="font-size:2.2rem; text-align: center; margin-bottom: 10px;">Platform Impact Rankings</h2>
+      <p style="color:var(--text-secondary); text-align: center; max-width:600px; margin: 0 auto 30px auto;">Celebrating our top community partners in our mission to limit carbon emissions and reduce organic waste.</p>
+
+      <div class="leaderboard-grid">
+        <!-- Top Donors -->
+        <div class="leaderboard-panel glass">
+          <h3><i class="fa-solid fa-trophy" style="color:#fbbf24;"></i> Food Donors Leaderboard</h3>
+          <div class="leaderboard-list" id="donor-leaderboard-list">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+
+        <!-- Top NGOs -->
+        <div class="leaderboard-panel glass">
+          <h3><i class="fa-solid fa-hands-holding-heart" style="color:var(--primary);"></i> Rescue NGOs Leaderboard</h3>
+          <div class="leaderboard-list" id="ngo-leaderboard-list">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL A: Food Detail Sheet -->
+  <div class="modal-overlay" id="food-detail-modal">
+    <div class="modal-container glass">
+      <div class="modal-header-img">
+        <img src="" alt="Food Preview" id="modal-img">
+        <button class="modal-close" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-title-section">
+          <h3 id="modal-title">Title</h3>
+          <div class="modal-badges">
+            <span class="category-badge veg" id="modal-badge-cat" style="position:relative; top:0; left:0;">Veg</span>
+            <span class="modal-badge primary" id="modal-badge-portions"><i class="fa-solid fa-bowl-rice"></i> 10 servings</span>
+            <span class="modal-badge" id="modal-badge-dist"><i class="fa-solid fa-location-arrow"></i> 1.2 km</span>
+          </div>
+        </div>
+
+        <p class="modal-desc" id="modal-description">Description</p>
+
+        <!-- Transportation Section (Hidden by default) -->
+        <div id="modal-transport-section" class="hide" style="margin-bottom: 20px; padding: 15px; border: 1px dashed var(--border-card); border-radius: var(--radius-sm); background: rgba(255,255,255,0.02);">
+          <h5 style="margin-bottom: 10px;"><i class="fa-solid fa-truck-fast"></i> Book Transportation</h5>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">Pre-filled pickup and drop-off coordinates where available.</p>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a id="btn-transport-uber" href="#" target="_blank" class="btn btn-primary btn-sm" style="flex:1; text-align:center; text-decoration: none;"><i class="fa-brands fa-uber"></i> Uber</a>
+            <a id="btn-transport-ola" href="https://book.olacabs.com/" target="_blank" class="btn btn-primary btn-sm" style="flex:1; text-align:center; text-decoration: none;"><i class="fa-solid fa-taxi"></i> Ola</a>
+            <a id="btn-transport-rapido" href="https://rapido.bike/" target="_blank" class="btn btn-primary btn-sm" style="flex:1; text-align:center; text-decoration: none;"><i class="fa-solid fa-motorcycle"></i> Rapido</a>
+          </div>
+        </div>
+
+        <div class="modal-details-grid">
+          <div class="detail-item">
+            <div class="detail-item-icon"><i class="fa-solid fa-user-tag"></i></div>
+            <div class="detail-item-text">
+              <h5>Donor Contact</h5>
+              <p id="modal-donor">Donor Name</p>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-item-icon"><i class="fa-solid fa-clock"></i></div>
+            <div class="detail-item-text">
+              <h5>Expires In</h5>
+              <p id="modal-expiry">4h remaining</p>
+            </div>
+          </div>
+          <div class="detail-item" style="grid-column: 1 / -1;">
+            <div class="detail-item-icon"><i class="fa-solid fa-map-marker-alt"></i></div>
+            <div class="detail-item-text">
+              <h5>Hotel Pickup Address</h5>
+              <p id="modal-address">124 Culinary Boulevard</p>
+            </div>
+          </div>
+        </div>
+        <div id="modal-map" style="height: 160px; border-radius: var(--radius-sm); border: 1px solid var(--border-card); margin-bottom: 10px; overflow: hidden;"></div>
+        <a id="modal-gmaps-link" href="#" target="_blank" class="btn btn-secondary" style="display: block; text-align: center; margin-bottom: 15px; text-decoration: none;">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Google Maps
+        </a>
+
+
+
+        <div class="modal-actions" id="modal-action-buttons-box">
+          <button class="btn btn-secondary" id="modal-cancel-btn">Close</button>
+          <button class="btn btn-primary" id="modal-claim-btn"><i class="fa-solid fa-hand-holding-heart"></i> Claim Surplus Offer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL B: Role Selection for First-time Google Auth -->
+  <div class="modal-overlay" id="role-selection-modal">
+    <div class="modal-container glass" style="max-width: 400px; text-align: center;">
+      <div class="modal-body">
+        <h3>Complete Your Profile</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">Please select how you will be using SustainaBite to continue.</p>
+        
+        <form id="form-role-selection">
+          <div class="form-group" style="text-align: left;">
+            <div class="role-selector" style="display: flex; gap: 10px;">
+              <div class="role-option" style="flex: 1;">
+                <input type="radio" id="g-role-donor" name="g-role" value="donor" checked>
+                <label for="g-role-donor" class="role-label" style="padding:15px 10px;">
+                  <i class="fa-solid fa-store" style="font-size:1.5rem; margin-bottom: 5px;"></i>
+                  <span style="font-size:0.85rem;">Donor</span>
+                </label>
+              </div>
+              <div class="role-option" style="flex: 1;">
+                <input type="radio" id="g-role-ngo" name="g-role" value="ngo">
+                <label for="g-role-ngo" class="role-label" style="padding:15px 10px;">
+                  <i class="fa-solid fa-hand-holding-heart" style="font-size:1.5rem; margin-bottom: 5px;"></i>
+                  <span style="font-size:0.85rem;">NGO</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Complete Registration</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Dropdown Panel -->
+  <div id="notification-panel" class="hide" style="position: fixed; top: 70px; right: 20px; width: 320px; background: var(--bg-card); border: 1px solid var(--border-card); border-radius: var(--radius-md); z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); padding: 10px; max-height: 400px; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-card); padding-bottom: 8px; margin-bottom: 10px;">
+      <h4 style="margin: 0;"><i class="fa-solid fa-bell"></i> Notifications</h4>
+      <button class="btn-icon" id="notif-panel-close" style="width: 24px; height: 24px; border: none; background: transparent; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="notif-list" style="display: flex; flex-direction: column; gap: 8px;">
+      <!-- Dynamically populated -->
+      <div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding: 20px 0;">No new notifications</div>
+    </div>
+  </div>
+
+
+  <!-- Toast Notification Anchor -->
+  <div class="toast-container" id="toast-notifications-container">
+    <!-- Notifications slide in here -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="container">
+    <p>&copy; 2026 SustainaBite Network. Live full-stack coordinates tracking backend enabled.</p>
+  </footer>
+
+  <!-- App script Orchestrator -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
